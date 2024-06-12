@@ -15,24 +15,46 @@ export default function MyList(){
                 <table className="table table-bordered">
                     <thead className="table-dark">
                         <tr>
-                            
                             <th>S.no</th>
                             <th>Name</th>
                             <th style={{width:"33.33%"}}>Operation</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>learn React</td>
-                            <td>
-                                <button className="btn btn-sm btn-primary px-3 mx-1">Done</button>
-                                <button className="btn btn-sm btn-outline-danger px-3 mx-1">Delete</button>
-                            </td>
+                        {m_array.map((row,index)=>(
+                            <tr>
+                                <td>{index+1}</td>
+                                <td className="rowvalue" onDoubleClick={AddTable}>{row}</td>
+                                <td>
+                                    <button className="btn btn-sm btn-primary px-3 mx-1">Done</button>
+                                    <button className="btn btn-sm btn-outline-danger px-3 mx-1">Delete</button>
+                                </td>
                         </tr>
+                        ))}
+                        
                     </tbody>
                 </table>
             </div>
         </div>
     </>
+};
+
+
+
+function AddTable(event){
+    var j = event.target.innerHTML
+    const Target = event.target
+    const Myinput = document.createElement('input');
+    Myinput.type = 'text'
+    Myinput.value = j;
+    Target.innerHTML = '';
+    Target.appendChild(Myinput);
+    Myinput.focus();
+    Myinput.onblur = function (){
+        j = this.value;
+        Target.removeChild(Myinput);
+        Target.innerHTML=j;
+    }
+    
+    
 };
