@@ -1,13 +1,14 @@
 import React,{useState, useEffect} from "react";
 
+const [AddNew , setAddNew] = useState(false);
+    const [Snotrack, setSnotrack] = useState(0);
 export default function MyList(){
 
-    const [Activity , setActivity] = useState([]);
-    const [Snotrack, setSnotrack] = useState(0);
+    
     
     useEffect(()=>{
-
-    },[Snotrack]);
+        console.log("g");
+    },[AddNew]);
     return<>
         <div className="container">
             <div className="container-fluid p-3 d-flex justify-content-between align-items-center">
@@ -34,6 +35,28 @@ export default function MyList(){
 };
 
 function addRow(){
-    const Table = document.getElementById().getElementsByTagName('tbody')[0];
+    const Table = document.getElementById("mytable").getElementsByTagName('tbody')[0];
+    const newrow = Table.insertRow();
+    const row1 = newrow.insertCell().innerHTML = 3;
+    const row2 = newrow.insertCell();
+    const row3 = newrow.insertCell().innerHTML = 3;
+    addInput(row2);
+    
+
     
 };
+
+function addInput(parent){
+    const input = document.createElement('input');
+    input.type = 'text';
+    parent.appendChild(input);
+    input.focus();
+    input.onblur = function(){_onblur(parent, this)};    
+};
+
+function _onblur(parent, myself){
+    var j = myself.value;
+    parent.removeChild(myself);
+    parent.innerHTML = j; 
+};
+
