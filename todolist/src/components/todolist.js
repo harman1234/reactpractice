@@ -1,19 +1,28 @@
 import React,{useState, useEffect} from "react";
 
-const [AddNew , setAddNew] = useState(false);
-    const [Snotrack, setSnotrack] = useState(0);
 export default function MyList(){
+    const [NameArray, setNameArray] = useState(["react","learnReact","expertise in it"]);
+    const [TableRows, setTableRows] = useState(null);
+    const [Count,setCount] = useState(0);
 
-    
-    
     useEffect(()=>{
-        console.log("g");
-    },[AddNew]);
+       const k = NameArray.map((_name,index)=>(
+            <tr key={index}>
+                <td>{index+1}</td>
+                <td onDoubleClick={(event)=>{onDBC(event)}}>{_name}</td>
+                <td><button className="btn btn-sm btn-primary">Done</button></td>
+            </tr>
+        
+        ));
+
+        setTableRows(k);
+    },[Count]);
+
     return<>
         <div className="container">
             <div className="container-fluid p-3 d-flex justify-content-between align-items-center">
                 <h5 className="text-secondary">Your list</h5>
-                <button className="btn btn-outline-primary" onClick={()=>{addRow();}}>+</button>
+                <button className="btn btn-outline-primary">+</button>
             </div>
             <div className="container">
                 <table id="mytable" className="table table-bordered">
@@ -25,8 +34,7 @@ export default function MyList(){
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        
+                        {TableRows}
                     </tbody>
                 </table>
             </div>
@@ -34,29 +42,29 @@ export default function MyList(){
     </>
 };
 
-function addRow(){
-    const Table = document.getElementById("mytable").getElementsByTagName('tbody')[0];
-    const newrow = Table.insertRow();
-    const row1 = newrow.insertCell().innerHTML = 3;
-    const row2 = newrow.insertCell();
-    const row3 = newrow.insertCell().innerHTML = 3;
-    addInput(row2);
-    
+function onDBC(event){
+    var Target = event.target;
+    var data = Target.innerHTML;
+    Target.innerHTML = ''
+    var mi = createInput(data);   
+    Target.appendChild(mi);
+    mi.focus();
 
-    
 };
 
-function addInput(parent){
-    const input = document.createElement('input');
-    input.type = 'text';
-    parent.appendChild(input);
-    input.focus();
-    input.onblur = function(){_onblur(parent, this)};    
+function createInput(_value){
+    var _input = document.createElement('input');
+    _input.value = _value;
+    _input.type = 'text';
+    _input.classList.add('form-control','input-sm');
+    _input.onblur = function(){removeInput(_input, this)};
+    return(_input);
+    _input.addEventListener("keydown", function(event){alert(event.key)});
 };
 
-function _onblur(parent, myself){
-    var j = myself.value;
-    parent.removeChild(myself);
-    parent.innerHTML = j; 
-};
-
+function removeInput(_input ,_this){
+    var pt = _this.parentNode;
+        var vl = _input.value;
+        pt.removeChild(_this);
+        pt.innerHTML = vl;
+}
